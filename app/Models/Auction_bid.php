@@ -9,3 +9,5 @@ class Auction_bid extends Model
 {
     use HasFactory;
 }
+
+

@@ -45,6 +45,10 @@
                     <input name="product_price" type="number">円<br>
                 </div>
                 <div class="input_design">
+                    <h4>最低落札価格</h4>
+                    <input name="product_lowest_price" type="number">円<br>
+                </div>
+                <div class="input_design">
                     <h4>商品画像</h4>
                     <span style="color: red; font-weight: bold">※必須</span><input name="product_image" class="btn btn-primary"type="file">
                 </div>

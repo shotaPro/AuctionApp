@@ -39,7 +39,7 @@
                         <div class="card-body">
                             <p class="card-title">商品名:
                                 {{ $product->product_name }}</p>
-                            <p class="card-text">現在価格: {{ $product->product_price }}</p>
+                            <p class="card-text">現在価格: {{ $product->product_price }} 入札数：{{ $product->bid_count }}件</p>
                         </div>
                         <form action="{{ url('bid_product', $product->id) }}" method="POST">
                             @csrf

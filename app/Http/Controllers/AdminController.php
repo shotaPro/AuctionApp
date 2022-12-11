@@ -71,6 +71,7 @@ class AdminController extends Controller
         $request->validate([
             'product_name' => 'required',
             'product_price' => 'required',
+            'product_lowest_price' => 'required',
             'product_image' => 'required',
         ]);
 
@@ -80,6 +81,7 @@ class AdminController extends Controller
         $product->user_id = $user_id;
         $product->product_name = $request->product_name;
         $product->product_price = $request->product_price;
+        $product->product_lowest_price = $request->product_lowest_price;
 
         $image = $request->product_image;
 
@@ -144,7 +146,7 @@ class AdminController extends Controller
 
                 $completed_shuppin_product->auction_status = 0;
                 $completed_shuppin_product->auction_id = $event_id;
-                
+
             }
         }
 
