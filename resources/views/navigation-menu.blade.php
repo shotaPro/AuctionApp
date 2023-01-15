@@ -18,6 +18,11 @@
                                         <a class="nav-link active" aria-current="page" href="{{ url('watchList') }}">お気に入り商品</a>
                                     </li>
                                 </ul>
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="{{ url('already_bid') }}">入札商品</a>
+                                    </li>
+                                </ul> 
                                 <form class="d-flex">
                                     <input class="form-control me-2" type="search" placeholder="Search"
                                         aria-label="Search">

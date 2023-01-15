@@ -37,6 +37,15 @@
                 @endif
 
                 <div class="input_design">
+                    <h4>出品業者</h4>
+                    <select style="width: 200px;" name="shuppinn_user" id="">
+                        <option value="">---</option>
+                        @foreach($shuppin_users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input_design">
                     <h4>商品名</h4>
                     <input name="product_name" type="text"><br>
                 </div>

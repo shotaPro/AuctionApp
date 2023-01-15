@@ -1,4 +1,3 @@
-<x-app-layout>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -13,6 +12,7 @@
     </head>
 
     <body>
+        <a href="{{ url('/redirect') }}">ホーム画面</a>
         <div style="border: 1px solid black" class="text-center">
 
             <form action="{{ url('event_setting') }}">
@@ -70,4 +70,3 @@
 
     </html>
 
-</x-app-layout>
