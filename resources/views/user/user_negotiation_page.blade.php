@@ -36,77 +36,82 @@
 
 
                     <div class="card" style="margin: auto;">
-                        @foreach ($negotiation_products as $key => $product_data)
-                        @foreach ($suggested_prices as $suggested_price)
-                            @php
+                        @if($negotiation_products != NULL){
 
-                                $key += 1;
-                            @endphp
+                            @foreach ($negotiation_products as $key => $product_data)
+                            @foreach ($suggested_prices as $suggested_price)
+                                @php
 
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">商品名</th>
-                                        <th scope="col">商品番号</th>
-                                        <th scope="col">入札額</th>
-                                        <th scope="col">提示された金額</th>
-                                        <th scope="col">受け入れ・拒否</th>
-                                        <th scope="col">提示金額</th>
-                                        <th scope="col">交渉状況</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        @if ($product_data->negotiation_status == 1)
-                                            <th scope="row">{{ $key++ }}</th>
-                                            <th>----</th>
-                                            <th>----</th>
-                                            <th>----</th>
-                                            <th>----</th>
-                                            <th>----</th>
-                                            <th>----</th>
-                                            <td style="background-color: red; color: white;" class="btn">成立</td>
-                                        @else
-                                            <th scope="row">{{ $key++ }}</th>
-                                            <td>{{ $product_data->product_name }}</td>
-                                            <td>{{ $product_data->id }}</td>
-                                            <td>{{ $product_data->highest_bid }}</td>
-                                            @if($product_data->id == $suggested_price->bid_product_id)
-                                            <td>{{ $suggested_price->bid_price }}</td>
-                                            <td>
-                                                <button id="accept_btn" type="button" class="btn btn-primary">受け入れる</button>
-                                                <a class="btn btn-danger" href="{{ url('reject_suggest_price', $product_data->id) }}">拒否</a>
-                                            </td>
+                                    $key += 1;
+                                @endphp
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">商品名</th>
+                                            <th scope="col">商品番号</th>
+                                            <th scope="col">入札額</th>
+                                            <th scope="col">提示された金額</th>
+                                            <th scope="col">受け入れ・拒否</th>
+                                            <th scope="col">提示金額</th>
+                                            <th scope="col">交渉状況</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @if ($product_data->negotiation_status == 1)
+                                                <th scope="row">{{ $key++ }}</th>
+                                                <th>----</th>
+                                                <th>----</th>
+                                                <th>----</th>
+                                                <th>----</th>
+                                                <th>----</th>
+                                                <th>----</th>
+                                                <td style="background-color: red; color: white;" class="btn">成立</td>
                                             @else
-                                            <td>---</td>
-                                            <td>---</td>
-                                            @endif
+                                                <th scope="row">{{ $key++ }}</th>
+                                                <td>{{ $product_data->product_name }}</td>
+                                                <td>{{ $product_data->id }}</td>
+                                                <td>{{ $product_data->highest_bid }}</td>
+                                                @if($product_data->id == $suggested_price->bid_product_id)
+                                                <td>{{ $suggested_price->bid_price }}</td>
+                                                <td>
+                                                    <button id="accept_btn" type="button" class="btn btn-primary">受け入れる</button>
+                                                    <a class="btn btn-danger" href="{{ url('reject_suggest_price', $product_data->id) }}">拒否</a>
+                                                </td>
+                                                @else
+                                                <td>---</td>
+                                                <td>---</td>
+                                                @endif
 
-                                            <td>
-                                                <form id="form" action="{{ url('admin_suggest_price') }}"
-                                                    method="GET">
-                                                    @csrf
-                                                    <input id="price" name="price" type="number">
-                                                    <button id="btn" class="mt-3 btn btn-success"
-                                                        data-id="{{ $product_data->id }}" type="button">提示する</button>
-                                                </form>
-                                            </td>
-                                            @if ($product_data->negotiation_status == 2)
-                                                <td style="background-color: green; color: white;" class="btn">交渉中
+                                                <td>
+                                                    <form id="form" action="{{ url('admin_suggest_price') }}"
+                                                        method="GET">
+                                                        @csrf
+                                                        <input id="price" name="price" type="number">
+                                                        <button id="btn" class="mt-3 btn btn-success"
+                                                            data-id="{{ $product_data->id }}" type="button">提示する</button>
+                                                    </form>
                                                 </td>
-                                            @elseif($product_data->negotiation_status == 3)
-                                                <td style="background-color: blue; color: white;" class="btn">交渉不成立
-                                                </td>
-                                            @else
-                                                <td>----</td>
+                                                @if ($product_data->negotiation_status == 2)
+                                                    <td style="background-color: green; color: white;" class="btn">交渉中
+                                                    </td>
+                                                @elseif($product_data->negotiation_status == 3)
+                                                    <td style="background-color: blue; color: white;" class="btn">交渉不成立
+                                                    </td>
+                                                @else
+                                                    <td>----</td>
+                                                @endif
                                             @endif
-                                        @endif
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @endforeach
                             @endforeach
-                        @endforeach
+                        }
+
+                        @endif
                     </div>
 
                 </div>

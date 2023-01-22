@@ -177,7 +177,7 @@ class AdminController extends Controller
 
         if ($selected_bill_status == 0) {
 
-            $not_yet_bill_event_products = Auction_event::join('products', 'products.auction_id', 'auction_events.id')->Where('products.highest_bid_person', '!=', NULL)->Where('products.auction_status', '=', 1)->Where('auction_events.end_date', '<', $current_date::today())->get();
+            $not_yet_bill_event_products = Auction_event::join('products', 'products.auction_id', 'auction_events.id')->Where('products.highest_bid_person', '!=', NULL)->Where('products.auction_status', '=', 1)->Where('products.won_person', '!=', 0)->Where('auction_events.end_date', '<', $current_date::today())->get();
         } else if ($selected_bill_status == 1) {
 
             $not_yet_bill_event_products = Auction_event::join('products', 'products.auction_id', 'auction_events.id')->Where('products.highest_bid_person', '!=', NULL)->Where('products.auction_status', '=', 3)->Where('auction_events.end_date', '<', $current_date::today())->get();
@@ -258,11 +258,17 @@ class AdminController extends Controller
     {
         $user_id = Auth::user()->id;
         $products = Product::Where('auction_status', '=', 1)->Where('user_id', '=', $user_id)->get();
+        $negotiation_products = NULL;
 
-        foreach ($products as $product) {
+        if ($products->isNotEmpty()) {
 
-            $negotiation_products = Product::Where('auction_status', '=', 1)->Where('product_lowest_price', '>', $product->highest_bid)->Where('won_person', '=', 0)->get();
+            foreach ($products as $product) {
+
+                $negotiation_products = Product::Where('auction_status', '=', 1)->Where('product_lowest_price', '>', $product->highest_bid)->Where('won_person', '=', 0)->get();
+            }
         }
+
+
 
         return view('admin.admin_negotiation_page', compact('negotiation_products'));
     }
@@ -276,14 +282,14 @@ class AdminController extends Controller
 
         $negotiation_product_data = Product::find($product_id);
 
-        if($suggest_price == $negotiation_product_data["highest_bid"]){
+        if ($suggest_price == $negotiation_product_data["highest_bid"]) {
 
             $negotiation_product_data["negotiation_status"] = 1;
             $negotiation_product_data->save();
 
             return redirect()->back();
 
-        }else {
+        } else {
 
             $auction_bid = new Auction_bid();
             $auction_bid->bid_product_id = $product_id;
@@ -297,6 +303,27 @@ class AdminController extends Controller
             $negotiation_product_data->save();
 
             return redirect()->back();
+        }
+    }
+
+    public function admin_kenpin_page()
+    {
+        return view('admin.admin_kenpin_page');
+    }
+
+    public function search_kenpin_product(Request $request)
+    {
+
+        $product_code = $request->input('product_code');
+        $product = Product::find($product_code);
+
+        if($product != NULL) {
+
+            return view('user.bid_product_detail', compact('product'));
+
+        }else {
+
+            return redirect()->back()->with("message", "商品が見つかりませんでした。");
 
         }
 

@@ -217,6 +217,9 @@ class HomeController extends Controller
 
     public function user_negotiation_page()
     {
+        $negotiation_products = NULL;
+        $suggested_prices = NULL;
+
         $user_id = Auth::user()->id;
         $products = Product::Where('auction_status', '=', 1)->Where('highest_bid_person', '=', $user_id)->get();
 
@@ -226,7 +229,13 @@ class HomeController extends Controller
             $suggested_prices = Auction_bid::Where('auction_id', '=', $product->auction_id)->Where('suggest_price_status', '=', 1)->get();
         }
 
-        return view('user.user_negotiation_page', compact('negotiation_products', 'suggested_prices'));
+        if ($negotiation_products != NULL &&  $suggested_prices != NULL) {
+
+            return view('user.user_negotiation_page', compact('negotiation_products', 'suggested_prices'));
+        } else {
+
+            return view('user.user_negotiation_page', compact('negotiation_products', 'suggested_prices'));
+        }
     }
 
     public function reject_suggest_price($id)
@@ -253,7 +262,6 @@ class HomeController extends Controller
         $product_data->save();
 
         return redirect()->back();
-
     }
 
 
@@ -451,5 +459,39 @@ class HomeController extends Controller
                 return redirect()->back()->with("message", "入札が正常に完了しました 現在の最高入札者はお客様です");
             }
         }
+    }
+
+    public function ikkatu_bid(Request $request)
+    {
+        $product_id = explode(",",$request->product_id);
+        $ikkatu_bid = explode(",", $request->ikkatu_bid);
+        $event_id = $request->event_id;
+        $user_id = Auth::user()->id;
+
+        $error_message = array();
+
+        dd($ikkatu_bid);
+
+
+        if($ikkatu_bid != ""){
+
+            foreach($product_id as $id){
+
+                // Product::Where('auction_status', '=', 1)->Where('auction_id', '=', $event_id)->Where('highest_bid_person', '=', $user_id)->update(['highest_bid' => ]);
+            }
+
+        }
+
+
+        $event = Auction_event::find($event_id);
+        $products = product::join('auction_events', 'auction_events.id', 'products.auction_id')->Where('products.auction_id', '=', $event_id)->select('products.id', 'product_image', 'product_name', 'product_price', 'bid_count', 'highest_bid_person')->get();
+        return view('user.auction_page', compact('products', 'user_id', 'event', 'error_message'));
+
+
+
+        $event = Auction_event::find($id);
+        $user_id = Auth::user()->id;
+        $products = product::join('auction_events', 'auction_events.id', 'products.auction_id')->Where('products.auction_id', '=', $id)->select('products.id', 'product_image', 'product_name', 'product_price', 'bid_count', 'highest_bid_person')->get();
+        return view('user.auction_page', compact('products', 'user_id', 'event'));
     }
 }

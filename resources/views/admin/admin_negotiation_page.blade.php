@@ -29,6 +29,7 @@
 
 
                     <div class="card" style="margin: auto;">
+                        @if($negotiation_products != NULL)
                         @foreach ($negotiation_products as $key => $product_data)
                             @php
                                 $key += 1;
@@ -88,6 +89,7 @@
                                 </tbody>
                             </table>
                         @endforeach
+                        @endif
                     </div>
 
                 </div>

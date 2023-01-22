@@ -47,6 +47,11 @@ Route::get('/create_invoice_pdf/{id}', [AdminController::class, 'create_invoice_
 Route::get('/admin_negotiation_page', [AdminController::class, 'admin_negotiation_page']);
 Route::get('/admin_suggest_price', [AdminController::class, 'admin_suggest_price']);
 
+//kenpin
+Route::get('/admin_kenpin_page', [AdminController::class, 'admin_kenpin_page']);
+Route::get('/search_kenpin_product', [AdminController::class, 'search_kenpin_product']);
+
+
 
 ////////////////////////////////
 //ユーザー画面
@@ -70,6 +75,7 @@ Route::get('invoice_page', [HomeController::class, 'invoice_page']);
 Route::get('user_negotiation_page', [HomeController::class, 'user_negotiation_page']);
 Route::get('reject_suggest_price/{id}', [HomeController::class, 'reject_suggest_price']);
 Route::get('accept_suggested_price', [HomeController::class, 'accept_suggested_price']);
+Route::get('/ikkatu_bid', [HomeController::class, 'ikkatu_bid']);
 
 
 

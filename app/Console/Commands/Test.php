@@ -37,6 +37,8 @@ class Test extends Command
 
         $current_data = new Carbon();
         $update_won_person = Auction_event::join('products', 'products.auction_id', 'auction_events.id')->Where('end_date', '<', $current_data::today())->Where('products.auction_status', '=', 0)->get();
+
+        //最低落札価格に満たない時は、落札者(won_person)を確定しない
         foreach ($update_won_person as $person) {
 
             if ($person->highest_bid < $person->product_lowest_price) {
@@ -52,7 +54,7 @@ class Test extends Command
                 } else {
 
                     Auction_event::join('products', 'products.auction_id', 'auction_events.id')->Where('end_date', '<', $current_data::today())->Where('products.auction_status', '=', 0)->update(['products.auction_status' => 1]);
-                    
+
                 }
             }
 

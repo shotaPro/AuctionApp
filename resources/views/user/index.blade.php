@@ -51,7 +51,7 @@
                                         class="ms-1 d-none d-sm-inline">落札者メニュー</span></a>
                                 <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                                     <li>
-                                        <a href="{{ url('negotiation_page') }}" class="nav-link px-0"> <span
+                                        <a href="{{ url('invoice_page') }}" class="nav-link px-0"> <span
                                                 class="d-none d-sm-inline">交渉画面</span>
                                     </li>
                                 </ul>
